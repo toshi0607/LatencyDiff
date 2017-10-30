@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:LatencyDiff" x:Class="LatencyDiff.LatencyDiffPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="labelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="#a8a8a8" />
+                <Setter Property="FontSize" Value="Small" />
+            </Style>
+            <Style x:Key="fieldStyle" TargetType="Label">
+                <Setter Property="TextColor">
+                    <OnPlatform x:TypeArguments="Color" iOS="Black" Android="White" />  
+                </Setter>
+                <Setter Property="FontSize" Value="Medium" /> 
+            </Style>
+            <Style x:Key="fieldView" TargetType="ContentView">
+                <Setter Property="Padding" Value="10,0,0,0" /> 
+            </Style>  
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" BackgroundColor="#545454">
+                    <StackLayout Padding="10,10,10,10" HorizontalOptions="Start">
+                        <Label Text="LatencyDiff" TextColor="White" FontAttributes="Bold" FontSize="Medium"></Label>
+                        <Label x:Name="UserName" Text="Qiita ID" Style="{StaticResource labelStyle}" />
+                        <Entry x:Name="UserNameEntry" WidthRequest="200" />
+                    </StackLayout>
+                    <StackLayout Padding="0,0,0,10" VerticalOptions="End">
+                        <Button Command="{Binding GetTagsCommand}" Text="調査" WidthRequest="60" BorderWidth="1">
+                            <Button.TextColor>
+                                <OnPlatform x:TypeArguments="Color" iOS="White" />
+                            </Button.TextColor>
+                            <Button.BorderColor>
+                                <OnPlatform x:TypeArguments="Color" iOS="White" />
+                            </Button.BorderColor>
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Vertical">
+                    <Label Text="{Binding LatencyDiff.TimeA, StringFormat='Azure Functions: {0:N}msec'}" />
+                    <Label Text="{Binding LatencyDiff.TimeB, StringFormat='API直接         : {0:N}msec'}" />
+                    <Label Text="{Binding LatencyDiff.Diff, StringFormat='差分             : {0:N}msec'}" />
+                </StackLayout>
+                <ListView ItemsSource="{Binding Tags}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ImageCell Text="{Binding Name}" Detail="{Binding ItemsCount, StringFormat='記事数: {0:N}'}" ImageSource="{Binding IconUrl}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
